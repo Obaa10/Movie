@@ -1,19 +1,12 @@
 package com.hfad.last;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
-import java.net.InetAddress;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,27 +17,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // check the internet access
-        // print true if the app access the internet
-        TextView textView = (TextView) findViewById(R.id.name);
-        if(isInternetAvailable())
-            textView.setText("True");
-
 
         MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
         movieAsyncTask.execute(url);
     }
 
 
-    // check the internet access
-    public boolean isInternetAvailable() {
-        try {
-            InetAddress ipAddr = InetAddress.getByName("google.com");
-            return !ipAddr.equals("");
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
 
     private class MovieAsyncTask extends AsyncTask<String, Void, Movie> {
@@ -62,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Movie data) {
+            super.onPostExecute(data);
             TextView textView = (TextView) findViewById(R.id.name);
             textView.setText("hi there ");
             textView.setText(data.getName());

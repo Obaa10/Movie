@@ -85,7 +85,10 @@ public class Url  {
             JSONObject baseJsonResponse = new JSONObject(movieJSON);
                 String title = baseJsonResponse.getString("title");
                 movie.setName(title);
-
+                String genre = baseJsonResponse.getJSONArray("genres").getJSONObject(0).getString("name");
+                movie.setGenre(genre);
+                String realised_data = baseJsonResponse.getString("release_date");
+                movie.setData(realised_data);
         } catch (JSONException e) {
             Log.e("Extractfeaturefromjson", "Problem", e);
         }

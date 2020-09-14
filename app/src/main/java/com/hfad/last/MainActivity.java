@@ -39,12 +39,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         @Override
-        protected void onPostExecute(Movie data) {
-            super.onPostExecute(data);
-            TextView textView = (TextView) findViewById(R.id.name);
-            textView.setText("hi there ");
-            textView.setText(data.getName());
+        protected void onPostExecute(Movie movie) {
+            super.onPostExecute(movie);
 
+            /*
+            TextView name = (TextView) findViewById(R.id.name);
+            TextView genre = (TextView) findViewById(R.id.movie_genre);
+            TextView realised_data = (TextView) findViewById(R.id.movie_realised_data);
+            name.setText(movie.getName());
+            genre.setText(movie.getGenre());
+            realised_data.setText(movie.getData());
+             */
 
         }
     }

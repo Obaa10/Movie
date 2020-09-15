@@ -1,6 +1,8 @@
 package com.hfad.last;
 import android.text.TextUtils;
 import android.util.Log;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -10,7 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
+import java.util.ArrayList;
 
 
 public class Url  {
@@ -74,29 +76,34 @@ public class Url  {
     }
 
 
-    private static Movie extractFeatureFromJson(String movieJSON){
+    private static ArrayList<Movie> extractFeatureFromJson(String movieJSON){
         if (TextUtils.isEmpty(movieJSON)){
             return null;
         }
 
 
-        Movie movie = new Movie();
-        try {
-            JSONObject baseJsonResponse = new JSONObject(movieJSON);
+        ArrayList<Movie> movies = new ArrayList<>();
+        for (int i = 0;i<20;i++) {
+            try {
+                Movie movie = new Movie();
+                JSONArray jsonArray = new JSONArray(movieJSON);
+                JSONObject baseJsonResponse = jsonArray.getJSONObject(i);
                 String title = baseJsonResponse.getString("title");
                 movie.setName(title);
                 String genre = baseJsonResponse.getJSONArray("genres").getJSONObject(0).getString("name");
                 movie.setGenre(genre);
                 String realised_data = baseJsonResponse.getString("release_date");
                 movie.setData(realised_data);
-        } catch (JSONException e) {
-            Log.e("Extractfeaturefromjson", "Problem", e);
+                movies.add(movie);
+            } catch (JSONException e) {
+                Log.e("Extractfeaturefromjson", "Problem", e);
+            }
         }
-        return movie;
+        return movies;
     }
 
 
-    public static Movie fetchMovieData(String requestUrl){
+    public static ArrayList<Movie> fetchMovieData(String requestUrl){
         URL url = createUrl(requestUrl);
 
         String jsonResponse = null ;

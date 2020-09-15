@@ -90,8 +90,9 @@ public class Url  {
                 JSONObject baseJsonResponse = jsonArray.getJSONObject(i);
                 String title = baseJsonResponse.getString("title");
                 movie.setName(title);
-                String genre = baseJsonResponse.getJSONArray("genres").getJSONObject(0).getString("name");
+               /* String genre = baseJsonResponse.getJSONArray("genres").getJSONObject(0).getString("name");
                 movie.setGenre(genre);
+                */
                 String realised_data = baseJsonResponse.getString("release_date");
                 movie.setData(realised_data);
                 movies.add(movie);

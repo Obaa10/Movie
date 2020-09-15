@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Movie  {
     private String name ;
-    private String genre;
+    private String genre = "ada";
     private String data;
 
 

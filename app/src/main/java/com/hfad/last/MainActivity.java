@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView movieRecyler = (RecyclerView) findViewById(R.id.movie_recycler);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         movieRecyler.setLayoutManager(layoutManager);
+        Movie movie = new Movie("sd","ds","sda");
+        movies.add(movie);
         movieAdapter = new MovieAdapter(movies);
         movieRecyler.setAdapter(movieAdapter);
         layoutManager.getLayoutDirection();

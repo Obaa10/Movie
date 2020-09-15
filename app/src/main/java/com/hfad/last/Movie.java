@@ -9,7 +9,12 @@ public class Movie  {
 
 
 
-
+    public Movie (String name,String genre,String data){
+        setData(data);
+        setGenre(genre);
+        setName(name);
+    }
+    public Movie(){}
     public String getData() {
         return data;
     }

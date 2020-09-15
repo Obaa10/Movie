@@ -43,6 +43,9 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
         name.setText(movies.get(position).getName());
         genre.setText(movies.get(position).getGenre());
         realised_data.setText(movies.get(position).getData());
+        if(position==(movies.size()-5)){
+            MainActivity.pos++;
+        }
     }
 
     @Override

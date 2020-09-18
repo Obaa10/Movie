@@ -11,48 +11,47 @@ import android.widget.CalendarView;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private static  String url = "https://api.themoviedb.org/3/discover/movie?api_key=6ddf1da8ede343f82786973e2dd7c457&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
+    private static  String url = "https://api.themoviedb.org/3/discover/movie?api_key=6ddf1da8ede343f82786973e2dd7c457&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
     private ArrayList<Movie> movies = new ArrayList<Movie>();
     public static int pos=1;
-    private MovieAdapter movieAdapter;
+    private RecyclerView movieRecyler;
+    private RecyclerView.LayoutManager layoutManager ;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // get the data from the internet
+        // get data from the internet
         MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
-        movieAsyncTask.execute(url+pos);
+        movieAsyncTask.execute(url);
 
-        RecyclerView movieRecyler = (RecyclerView) findViewById(R.id.movie_recycler);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+
+        movieRecyler = (RecyclerView) findViewById(R.id.movie_recycler);
+        layoutManager = new LinearLayoutManager(this);
         movieRecyler.setLayoutManager(layoutManager);
-        Movie movie = new Movie("sd","ds","sda");
-        movies.add(movie);
-        movieAdapter = new MovieAdapter(movies);
-        movieRecyler.setAdapter(movieAdapter);
-        layoutManager.getLayoutDirection();
-        movieAdapter.getItemCount();
     }
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
         int pose = 1;
         if(pos> pose){
             pose += 1;
-            url = url+pose;
+            //url = url+pose;
             MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
-            movieAsyncTask.execute(url+pose);
+            movieAsyncTask.execute(url);
             movieAdapter = new MovieAdapter(movies);
         }
     }
 
-    private class MovieAsyncTask extends AsyncTask<String, Void,ArrayList<Movie>> {
+     */
+
+    private class MovieAsyncTask extends AsyncTask<String, Void, ArrayList<Movie>> {
 
         @Override
         protected void onProgressUpdate(Void... values) {
@@ -73,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Movie> moviess) {
             super.onPostExecute(moviess);
             movies = moviess;
+            MovieAdapter movieAdapter = new MovieAdapter(moviess);
+            movieRecyler.setAdapter(movieAdapter);
+            layoutManager.getLayoutDirection();
+
         }
     }
 }

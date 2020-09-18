@@ -2,6 +2,8 @@ package com.hfad.last;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.constraintlayout.utils.widget.MockView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,21 +82,21 @@ public class Url  {
         if (TextUtils.isEmpty(movieJSON)){
             return null;
         }
-
-
         ArrayList<Movie> movies = new ArrayList<>();
         for (int i = 0;i<20;i++) {
             try {
                 Movie movie = new Movie();
-                JSONArray jsonArray = new JSONArray(movieJSON);
-                JSONObject baseJsonResponse = jsonArray.getJSONObject(i);
-                String title = baseJsonResponse.getString("title");
+                JSONObject jsonObject = new JSONObject(movieJSON);
+                JSONArray jsonArray = jsonObject.getJSONArray("results");
+                JSONObject jsonMovie = jsonArray.getJSONObject(i);
+                String title = jsonMovie.getString("title");
                 movie.setName(title);
-               /* String genre = baseJsonResponse.getJSONArray("genres").getJSONObject(0).getString("name");
-                movie.setGenre(genre);
-                */
-                String realised_data = baseJsonResponse.getString("release_date");
+               //String genre = jsonMovie.getJSONArray("genres").getJSONObject(0).getString("name");
+               // movie.setGenre(genre);
+
+                String realised_data = jsonMovie.getString("release_date");
                 movie.setData(realised_data);
+
                 movies.add(movie);
             } catch (JSONException e) {
                 Log.e("Extractfeaturefromjson", "Problem", e);

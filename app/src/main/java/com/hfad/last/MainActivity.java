@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static  String url = "https://api.themoviedb.org/3/discover/movie?api_key=6ddf1da8ede343f82786973e2dd7c457&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
+    private static  String url = "https://api.themoviedb.org/3/discover/movie?api_key=6ddf1da8ede343f82786973e2dd7c457&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
     private ArrayList<Movie> movies = new ArrayList<Movie>();
     public static int pos=1;
     private RecyclerView movieRecyler;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // get data from the internet
         MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
-        movieAsyncTask.execute(url);
+        movieAsyncTask.execute(url+"1");
 
 
         movieRecyler = (RecyclerView) findViewById(R.id.movie_recycler);
@@ -34,20 +34,20 @@ public class MainActivity extends AppCompatActivity {
         movieRecyler.setLayoutManager(layoutManager);
     }
 
-    /*@Override
+    @Override
     protected void onResume() {
         super.onResume();
-        int pose = 1;
+        Integer pose = 1;
         if(pos> pose){
             pose += 1;
-            //url = url+pose;
             MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
-            movieAsyncTask.execute(url);
-            movieAdapter = new MovieAdapter(movies);
+            movieAsyncTask.execute(url+pose.toString());
         }
     }
 
-     */
+
+
+
 
     private class MovieAsyncTask extends AsyncTask<String, Void, ArrayList<Movie>> {
 
@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Movie> moviess) {
             super.onPostExecute(moviess);
-            movies = moviess;
             MovieAdapter movieAdapter = new MovieAdapter(moviess);
             movieRecyler.setAdapter(movieAdapter);
             layoutManager.getLayoutDirection();

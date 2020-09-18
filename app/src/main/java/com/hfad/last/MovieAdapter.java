@@ -38,10 +38,10 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CardView cardView = holder.cardView;
         TextView name = (TextView) cardView.findViewById(R.id.movie_name);
-        TextView genre = (TextView) cardView.findViewById(R.id.movie_vote);
+        //TextView genre = (TextView) cardView.findViewById(R.id.movie_vote);
         TextView realised_data = (TextView) cardView.findViewById(R.id.movie_realised_data);
         name.setText(movies.get(position).getName());
-        genre.setText(movies.get(position).getVote());
+        //genre.setText(movies.get(position).getVote());
         realised_data.setText(movies.get(position).getData());
         if(position==(movies.size()-5)){
             MainActivity.pos++;

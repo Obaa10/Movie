@@ -92,8 +92,8 @@ public class Url  {
                 String title = jsonMovie.getString("title");
                 movie.setName(title);
 
-                int vote = jsonMovie.getInt("vote_average");
-                movie.setVote(vote);
+                //int vote = jsonMovie.getInt("vote_average");
+                //movie.setVote(vote);
 
                 String realised_data = jsonMovie.getString("release_date");
                 movie.setData(realised_data);

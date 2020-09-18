@@ -7,11 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.CalendarView;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 public class MainActivity extends AppCompatActivity {

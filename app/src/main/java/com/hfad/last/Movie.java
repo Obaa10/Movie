@@ -4,28 +4,28 @@ import java.util.List;
 
 public class Movie  {
     private String name ;
-    private String genre ;
+    private int vote;
     private String data;
 
 
 
-    public Movie (String name,String genre,String data){
+    public Movie (String name,int vote,String data){
         setData(data);
-        setGenre(genre);
+        setVote(vote);
         setName(name);
     }
     public Movie(){}
     public String getData() {
         return data;
     }
-    public String getGenre() {
-        return genre;
+    public int getVote() {
+        return vote;
     }
     public void setData(String data) {
         this.data = data;
     }
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setVote(int vote) {
+        this.vote = vote;
     }
     public String getName() {
         return name;

@@ -91,8 +91,9 @@ public class Url  {
                 JSONObject jsonMovie = jsonArray.getJSONObject(i);
                 String title = jsonMovie.getString("title");
                 movie.setName(title);
-               //String genre = jsonMovie.getJSONArray("genres").getJSONObject(0).getString("name");
-               // movie.setGenre(genre);
+
+                int vote = jsonMovie.getInt("vote_average");
+                movie.setVote(vote);
 
                 String realised_data = jsonMovie.getString("release_date");
                 movie.setData(realised_data);
@@ -117,10 +118,5 @@ public class Url  {
         }
         return extractFeatureFromJson(jsonResponse);
     }
-
-
-
-
-
 
 }

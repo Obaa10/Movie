@@ -2,6 +2,7 @@ package com.hfad.last;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     public static int pos=1;
     private RecyclerView movieRecyler;
     private RecyclerView.LayoutManager layoutManager ;
+    public MovieAdapter movieAdapter ;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         // get data from the internet
         MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
         movieAsyncTask.execute(url+"1");
-
 
         movieRecyler = (RecyclerView) findViewById(R.id.movie_recycler);
         layoutManager = new LinearLayoutManager(this);
@@ -69,10 +70,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Movie> moviess) {
             super.onPostExecute(moviess);
-            MovieAdapter movieAdapter = new MovieAdapter(moviess);
+            movieAdapter = new MovieAdapter(moviess);
             movieRecyler.setAdapter(movieAdapter);
             layoutManager.getLayoutDirection();
-
+             if(pos!=1) {
+                movieAdapter.update(moviess);
+            }
         }
+
     }
 }

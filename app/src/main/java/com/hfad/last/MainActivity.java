@@ -1,6 +1,7 @@
 package com.hfad.last;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
         // get data from the internet
         MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
         movieAsyncTask.execute(url+"1");
@@ -39,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void update (){
 
+
+    private void update (){
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
@@ -88,9 +92,7 @@ public class MainActivity extends AppCompatActivity {
             else {
                 movieAdapter.update(moviess);
                 movieAdapter.notifyItemRangeInserted(19,moviess.size());
-
             }
         }
-
     }
 }

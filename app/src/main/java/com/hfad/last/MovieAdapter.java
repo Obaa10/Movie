@@ -1,14 +1,19 @@
 package com.hfad.last;
 
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,12 +46,15 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
         CardView cardView = holder.cardView;
         TextView name = (TextView) cardView.findViewById(R.id.movie_name);
         TextView realised_data = (TextView) cardView.findViewById(R.id.movie_realised_data);
+        ImageView image = (ImageView) cardView.findViewById(R.id.movie_image);
         name.setText(movies.get(position).getName());
         realised_data.setText(movies.get(position).getData());
-        if (position>=15){
+        image.setImageBitmap(movies.get(position).getPoster_path());
+        if (position>=(MainActivity.pos*10*2-5)){
             MainActivity.pos +=1;
         }
     }
+
 
 
     @Override
@@ -57,6 +65,7 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
     public void update (ArrayList<Movie> moviess)
     {
         this.movies.addAll(moviess);
+
     }
 
 

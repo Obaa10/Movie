@@ -1,4 +1,7 @@
 package com.hfad.last;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -77,7 +80,6 @@ public class Url  {
         return output.toString();
     }
 
-
     private static ArrayList<Movie> extractFeatureFromJson(String movieJSON){
         if (TextUtils.isEmpty(movieJSON)){
             return null;
@@ -91,20 +93,28 @@ public class Url  {
                 JSONObject jsonMovie = jsonArray.getJSONObject(i);
                 String title = jsonMovie.getString("title");
                 movie.setName(title);
-
+                String poster_path = jsonMovie.getString("poster_path");
+                Bitmap mIcon11 = null;
+                InputStream in = new java.net.URL("https://image.tmdb.org/t/p/w185"+poster_path).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+                movie.setPoster_path(mIcon11);
                 //int vote = jsonMovie.getInt("vote_average");
                 //movie.setVote(vote);
-
                 String realised_data = jsonMovie.getString("release_date");
                 movie.setData(realised_data);
 
                 movies.add(movie);
             } catch (JSONException e) {
                 Log.e("Extractfeaturefromjson", "Problem", e);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return movies;
     }
+
 
 
     public static ArrayList<Movie> fetchMovieData(String requestUrl){

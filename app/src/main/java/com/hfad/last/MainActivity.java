@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView movieRecyler;
     private RecyclerView.LayoutManager layoutManager ;
     public MovieAdapter movieAdapter ;
+    private static Integer pose = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,17 +35,25 @@ public class MainActivity extends AppCompatActivity {
         movieRecyler = (RecyclerView) findViewById(R.id.movie_recycler);
         layoutManager = new LinearLayoutManager(this);
         movieRecyler.setLayoutManager(layoutManager);
+        update();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Integer pose = 1;
-        if(pos> pose){
-            pose += 1;
-            MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
-            movieAsyncTask.execute(url+pose.toString());
+
+    private void update (){
+
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(pos>pose){
+                    pose+=1;
+                    MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
+                    movieAsyncTask.execute(url+pose.toString());
+                }
+                handler.postDelayed(this,1000);
+            }
         }
+        );
     }
 
 
@@ -70,11 +80,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Movie> moviess) {
             super.onPostExecute(moviess);
-            movieAdapter = new MovieAdapter(moviess);
-            movieRecyler.setAdapter(movieAdapter);
-            layoutManager.getLayoutDirection();
-             if(pos!=1) {
+            if(pos==1) {
+                movieAdapter = new MovieAdapter(moviess);
+                movieRecyler.setAdapter(movieAdapter);
+                layoutManager.getLayoutDirection();
+            }
+            else {
                 movieAdapter.update(moviess);
+                movieAdapter.notifyItemRangeInserted(19,moviess.size());
+
             }
         }
 

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ProgressBar;
 
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         // get data from the internet
         MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
         movieAsyncTask.execute(url+"1");
+
 
         movieRecyler = (RecyclerView) findViewById(R.id.movie_recycler);
         layoutManager = new LinearLayoutManager(this);

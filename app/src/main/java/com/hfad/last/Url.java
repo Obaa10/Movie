@@ -1,11 +1,8 @@
 package com.hfad.last;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
-
-import androidx.constraintlayout.utils.widget.MockView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,6 +99,8 @@ public class Url  {
                 //movie.setVote(vote);
                 String realised_data = jsonMovie.getString("release_date");
                 movie.setData(realised_data);
+                int id = jsonMovie.getInt("id");
+                movie.setId(id);
 
                 movies.add(movie);
             } catch (JSONException e) {

@@ -2,25 +2,27 @@ package com.hfad.last;
 
 import android.graphics.Bitmap;
 
-import java.util.List;
-
 public class Movie  {
     private String name ;
     private int vote;
     private String data;
     private Bitmap poster_path;
+    private int id;
 
 
 
-    public Movie (String name,int vote,String data,Bitmap poster_path){
+    public Movie(String name, int vote, String data, Bitmap poster_path, int id){
+        setId(id);
         setData(data);
         setVote(vote);
         setName(name);
         setPoster_path(poster_path);
     }
 
+    public Movie(){
+            }
 
-    public Movie(){}
+
     public String getData() {
         return data;
     }
@@ -44,5 +46,11 @@ public class Movie  {
     }
     public void setPoster_path(Bitmap poster_path) {
         this.poster_path = poster_path;
+    }
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 }

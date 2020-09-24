@@ -1,5 +1,7 @@
 package com.hfad.last;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.view.LayoutInflater;
@@ -20,7 +22,6 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder> {
 
     private ArrayList<Movie> movies ;
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView ;
         public ViewHolder (CardView v){
@@ -42,7 +43,7 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         CardView cardView = holder.cardView;
         TextView name = (TextView) cardView.findViewById(R.id.movie_name);
         TextView realised_data = (TextView) cardView.findViewById(R.id.movie_realised_data);
@@ -53,6 +54,18 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
         if (position>=(MainActivity.pos*10*2-5)){
             MainActivity.pos +=1;
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),details.class);
+                intent.putExtra("id",movies.get(position).getId());
+                v.getContext().startActivity(intent);
+
+            }
+        });
+
+
     }
 
 

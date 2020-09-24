@@ -1,23 +1,17 @@
 package com.hfad.last;
 
-import android.app.Activity;
+
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder> {
 
@@ -55,14 +49,14 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
             MainActivity.pos +=1;
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+       holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(),details.class);
                 intent.putExtra("id",movies.get(position).getId());
                 v.getContext().startActivity(intent);
-
             }
+
         });
 
 

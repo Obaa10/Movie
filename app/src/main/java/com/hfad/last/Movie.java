@@ -2,97 +2,165 @@ package com.hfad.last;
 
 import android.graphics.Bitmap;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class Movie  {
-    private String name ;
-    private int vote;
-    private String data;
-    private Bitmap poster_path;
-    private int id;
-    private String movie_title;
-    private String overviwe;
-    private String language;
-    private boolean adult;
-    private Bitmap backdrop_path;
 
+    @SerializedName("popularity")
+    @Expose
+    private Float popularity;
+    @SerializedName("vote_count")
+    @Expose
+    private Integer voteCount;
+    @SerializedName("video")
+    @Expose
+    private Boolean video;
+    @SerializedName("poster_path")
+    @Expose
+    private String posterPath;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("adult")
+    @Expose
+    private Boolean adult;
+    @SerializedName("backdrop_path")
+    @Expose
+    private String backdropPath;
+    @SerializedName("original_language")
+    @Expose
+    private String originalLanguage;
+    @SerializedName("original_title")
+    @Expose
+    private String originalTitle;
+    @SerializedName("genre_ids")
+    @Expose
+    private List<Integer> genreIds = null;
+    @SerializedName("title")
+    @Expose
+    private String title;
+    @SerializedName("vote_average")
+    @Expose
+    private Float voteAverage;
+    @SerializedName("overview")
+    @Expose
+    private String overview;
+    @SerializedName("release_date")
+    @Expose
+    private String releaseDate;
 
-
-   public Movie(String name, int vote, String data, Bitmap poster_path, int id,String movie_title,String overviwe,String language,boolean adult
-    ,Bitmap backdrop_path){
-        setId(id);
-        setBackdrop_path(backdrop_path);
-        setAdult(adult);
-        setLanguage(language);
-        setMovie_title(movie_title);
-        setOverviwe(overviwe);
-        setData(data);
-        setVote(vote);
-        setName(name);
-        setPoster_path(poster_path);
+    public Float getPopularity() {
+        return popularity;
     }
 
+    public void setPopularity(Float popularity) {
+        this.popularity = popularity;
+    }
 
-    public Movie(){
-            }
+    public Integer getVoteCount() {
+        return voteCount;
+    }
 
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
 
-    public String getData() {
-        return data;
+    public Boolean getVideo() {
+        return video;
     }
-    public int getVote() {
-        return vote;
+
+    public void setVideo(Boolean video) {
+        this.video = video;
     }
-    public void setData(String data) {
-        this.data = data;
+
+    public String getPosterPath() {
+        return posterPath;
     }
-    public void setVote(int vote) {
-        this.vote = vote;
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public Bitmap getPoster_path() {
-        return poster_path;
-    }
-    public void setPoster_path(Bitmap poster_path) {
-        this.poster_path = poster_path;
-    }
-    public int getId() {
+
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+
+    public void setId(Integer id) {
         this.id = id;
     }
-    public String getMovie_title() {
-        return movie_title;
-    }
-    public void setMovie_title(String movie_title) {
-        this.movie_title = movie_title;
-    }
-    public String getOverviwe() {
-        return overviwe;
-    }
-    public void setOverviwe(String overviwe) {
-        this.overviwe = overviwe;
-    }
-    public String getLanguage() {
-        return language;
-    }
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-    public boolean isAdult() {
+
+    public Boolean getAdult() {
         return adult;
     }
-    public void setAdult(boolean adult) {
+
+    public void setAdult(Boolean adult) {
         this.adult = adult;
     }
-    public Bitmap getBackdrop_path() {
-        return backdrop_path;
+
+    public String getBackdropPath() {
+        return backdropPath;
     }
-    public void setBackdrop_path(Bitmap backdrop_path) {
-        this.backdrop_path = backdrop_path;
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public String getOriginalLanguage() {
+        return originalLanguage;
+    }
+
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public List<Integer> getGenreIds() {
+        return genreIds;
+    }
+
+    public void setGenreIds(List<Integer> genreIds) {
+        this.genreIds = genreIds;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Float getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(Float voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }

@@ -89,16 +89,16 @@ public class Url  {
                 JSONArray jsonArray = jsonObject.getJSONArray("results");
                 JSONObject jsonMovie = jsonArray.getJSONObject(i);
                 String title = jsonMovie.getString("title");
-                movie.setName(title);
+                movie.setTitle(title);
                 String poster_path = jsonMovie.getString("poster_path");
                 Bitmap mIcon11 = null;
                 InputStream in = new java.net.URL("https://image.tmdb.org/t/p/w185"+poster_path).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
-                movie.setPoster_path(mIcon11);
+                //movie.setPosterPath(mIcon11);
                 //int vote = jsonMovie.getInt("vote_average");
                 //movie.setVote(vote);
                 String realised_data = jsonMovie.getString("release_date");
-                movie.setData(realised_data);
+                movie.setReleaseDate(realised_data);
                 int id = jsonMovie.getInt("id");
                 movie.setId(id);
 

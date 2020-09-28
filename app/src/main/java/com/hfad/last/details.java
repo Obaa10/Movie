@@ -15,35 +15,42 @@ import java.util.ArrayList;
 public class details extends AppCompatActivity {
     private Integer id;
     private String url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        id = (Integer)getIntent().getExtras().get("id");
-        url = "https://api.themoviedb.org/3/movie/"+id.toString()+"?api_key=6ddf1da8ede343f82786973e2dd7c457";
+        id = (Integer) getIntent().getExtras().get("id");
+        url = "https://api.themoviedb.org/3/movie/" + id.toString() + "?api_key=6ddf1da8ede343f82786973e2dd7c457";
+        //    details.MovieAsyncTask movieAsyncTask = new details.MovieAsyncTask();
+        //    movieAsyncTask.execute(url);
     }
+}
 
-    private class MovieAsyncTask extends AsyncTask<String,Void,Movie>{
+   // private class MovieAsyncTask extends AsyncTask<String,Void,Movie>{
 
 
-        @Override
+    /*    @Override
         protected Movie doInBackground(String... urls) {
             return Url_details.fetchMovieData(urls[0]);
         }
 
-        @Override
-        protected void onPostExecute(Movie movies) {
+
+     */
+      /*  protected void onPostExecute(Movie movies) {
             super.onPostExecute(movies);
-            ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-            imageView.setImageBitmap(movies.getBackdrop_path());
+           // ImageView imageView = (ImageView) findViewById(R.id.backdrop);
+           // imageView.setImageBitmap(movies.getBackdrop_path());
             TextView title = (TextView) findViewById(R.id.movie_title);
             title.setText(movies.getMovie_title());
-            TextView vote = (TextView) findViewById(R.id.vote_average);
-            vote.setText(movies.getVote());
+            //TextView vote = (TextView) findViewById(R.id.vote_average);
+            //vote.setText(movies.getVote());
             TextView overview = (TextView) findViewById(R.id.overview);
             overview.setText(movies.getOverviwe());
             TextView language = (TextView) findViewById(R.id.language);
             language.setText(movies.getLanguage());
             }
         }
-    }
+
+       */
+

@@ -1,14 +1,8 @@
 package com.hfad.last;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,11 +10,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
+
 
 public class Url_details {
-
-
+/*
     private static URL createUrl(String stringUrl){
         URL url = null;
         try {
@@ -90,30 +83,29 @@ public class Url_details {
                 String movie_title = jsonMovie.getString("original_title");
                 movie.setMovie_title(movie_title);
                 String backdrop_path = jsonMovie.getString("backdrop_path");
-                Bitmap mIcon11 = null;
-                InputStream in = new java.net.URL("https://image.tmdb.org/t/p/original"+backdrop_path).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-                movie.setBackdrop_path(mIcon11);
+               // Bitmap mIcon11 = null;
+               // InputStream in = new java.net.URL("https://image.tmdb.org/t/p/original"+backdrop_path).openStream();
+              //  mIcon11 = BitmapFactory.decodeStream(in);
+              //  movie.setBackdrop_path(mIcon11);
                 int vote = jsonMovie.getInt("vote_average");
                 movie.setVote(vote);
                 String original_language = jsonMovie.getString("original_language");
                 movie.setLanguage(original_language);
-                boolean adult = jsonMovie.getBoolean("adult");
-                movie.setAdult(adult);
+               // boolean adult = jsonMovie.getBoolean("adult");
+                //movie.setAdult(adult);
                 String overview = jsonMovie.getString("overview");
                 movie.setOverviwe(overview);
 
             } catch (JSONException e) {
                 Log.e("Extractfeaturefromjson", "Problem", e);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } //catch (MalformedURLException e) {
+                //e.printStackTrace();
+            //}
+            //catch (IOException e) {
+            //    e.printStackTrace();
+           // }
         return movie;
     }
-
-
 
     public static Movie fetchMovieData(String requestUrl){
         URL url = createUrl(requestUrl);
@@ -126,6 +118,8 @@ public class Url_details {
         }
         return extractFeatureFromJson(jsonResponse);
     }
+
+ */
 
 }
 

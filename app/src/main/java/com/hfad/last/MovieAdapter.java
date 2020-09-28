@@ -11,11 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder> {
 
-    private ArrayList<Movie> movies ;
+    private List<Movie> movies ;
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView ;
         public ViewHolder (CardView v){
@@ -23,7 +24,7 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
             cardView = v;
         }
     }
-    public MovieAdapter (ArrayList<Movie> movies){
+    public MovieAdapter (List<Movie> movies){
         this.movies=movies;
     }
 
@@ -42,9 +43,9 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
         TextView name = (TextView) cardView.findViewById(R.id.movie_name);
         TextView realised_data = (TextView) cardView.findViewById(R.id.movie_realised_data);
         ImageView image = (ImageView) cardView.findViewById(R.id.movie_image);
-        name.setText(movies.get(position).getName());
-        realised_data.setText(movies.get(position).getData());
-        image.setImageBitmap(movies.get(position).getPoster_path());
+        name.setText(movies.get(position).getTitle());
+        realised_data.setText(movies.get(position).getReleaseDate());
+       // image.setImageBitmap(movies.get(position).getPosterPath());
         if (position>=(MainActivity.pos*10*2-5)){
             MainActivity.pos +=1;
         }
@@ -69,7 +70,7 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
         return movies.size();
     }
 
-    public void update (ArrayList<Movie> moviess)
+    public void update (List<Movie> moviess)
     {
         this.movies.addAll(moviess);
 

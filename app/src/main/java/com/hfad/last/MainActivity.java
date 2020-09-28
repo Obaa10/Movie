@@ -9,16 +9,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private static  String url = "https://api.themoviedb.org/3/discover/movie?api_key=6ddf1da8ede343f82786973e2dd7c457&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
-    private ArrayList<Movie> movies = new ArrayList<Movie>();
+    private List<Movie> movies = new ArrayList<Movie>();
     public static int pos=1;
     private RecyclerView movieRecyler;
     private RecyclerView.LayoutManager layoutManager ;
@@ -31,15 +38,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
+
         // get data from the internet
-        MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
-        movieAsyncTask.execute(url+"1");
 
 
+        // set the recyclerView
         movieRecyler = (RecyclerView) findViewById(R.id.movie_recycler);
         layoutManager = new LinearLayoutManager(this);
         movieRecyler.setLayoutManager(layoutManager);
-        update();
+
+        Do(1);
+
+        // set the adapter
+
+
     }
 
 
@@ -86,9 +98,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Movie> moviess) {
             super.onPostExecute(moviess);
             if(pos==1) {
-                movieAdapter = new MovieAdapter(moviess);
-                movieRecyler.setAdapter(movieAdapter);
-                layoutManager.getLayoutDirection();
+
             }
             else {
                 movieAdapter.update(moviess);
@@ -96,4 +106,32 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-}
+
+
+    private void Do (int id){
+        GetData apiService = RetrofitGetData.getRetrofitInstance().create(GetData.class);
+        Call<ResultsObject> call = apiService.getAllPhotos(id);
+        call.enqueue(new Callback<ResultsObject>() {
+            @Override
+            public void onResponse(Call<ResultsObject> call, Response<ResultsObject> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    List<Movie> moveList = response.body().getResults();
+                    if (moveList != null) {
+                        movies.addAll(moveList);
+                        movieAdapter = new MovieAdapter(movies);
+                        movieRecyler.setAdapter(movieAdapter);
+                        layoutManager.getLayoutDirection();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResultsObject> call, Throwable t) {
+                Log.d("TAG", "Response = " + t.toString());
+            }
+        });
+    }
+    }
+
+

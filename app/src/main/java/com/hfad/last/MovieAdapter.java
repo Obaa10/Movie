@@ -1,6 +1,7 @@
 package com.hfad.last;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.ArrayList;
+import com.squareup.picasso.Picasso;
 import java.util.List;
+
+import static java.security.AccessController.getContext;
 
 
 public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder> {
@@ -45,7 +48,7 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
         ImageView image = (ImageView) cardView.findViewById(R.id.movie_image);
         name.setText(movies.get(position).getTitle());
         realised_data.setText(movies.get(position).getReleaseDate());
-       // image.setImageBitmap(movies.get(position).getPosterPath());
+        Picasso.get().load("https://image.tmdb.org/t/p/w185" + movies.get(position).getPosterPath()).into(holder.cardView.<ImageView>findViewById(R.id.movie_image));
         if (position>=(MainActivity.pos*10*2-5)){
             MainActivity.pos +=1;
         }

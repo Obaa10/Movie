@@ -24,7 +24,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static  String url = "https://api.themoviedb.org/3/discover/movie?api_key=6ddf1da8ede343f82786973e2dd7c457&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
+    private static  String url = "/3/discover/movie?api_key=6ddf1da8ede343f82786973e2dd7c457&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
     private List<Movie> movies = new ArrayList<Movie>();
     public static int pos=1;
     private RecyclerView movieRecyler;
@@ -47,10 +47,9 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         movieRecyler.setLayoutManager(layoutManager);
 
-        Do(1);
-
         // set the adapter
-
+        Do(url+"1");
+        update();
 
     }
 
@@ -64,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 if(pos>pose){
                     pose+=1;
-                    MovieAsyncTask movieAsyncTask = new MovieAsyncTask();
-                    movieAsyncTask.execute(url+pose.toString());
+                    Do(url+pose.toString());
                 }
                 handler.postDelayed(this,1000);
             }
@@ -76,39 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-    private class MovieAsyncTask extends AsyncTask<String, Void, ArrayList<Movie>> {
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected ArrayList<Movie> doInBackground(String... urls) {
-            if (urls.length < 1 || urls[0] == null) {
-                return null;
-            }
-
-            return Url.fetchMovieData(urls[0]);
-        }
-
-
-        @Override
-        protected void onPostExecute(ArrayList<Movie> moviess) {
-            super.onPostExecute(moviess);
-            if(pos==1) {
-
-            }
-            else {
-                movieAdapter.update(moviess);
-                movieAdapter.notifyItemRangeInserted(19,moviess.size());
-            }
-        }
-    }
-
-
-    private void Do (int id){
+    private void Do (String id){
         GetData apiService = RetrofitGetData.getRetrofitInstance().create(GetData.class);
         Call<ResultsObject> call = apiService.getAllPhotos(id);
         call.enqueue(new Callback<ResultsObject>() {
@@ -118,14 +84,16 @@ public class MainActivity extends AppCompatActivity {
                     assert response.body() != null;
                     List<Movie> moveList = response.body().getResults();
                     if (moveList != null) {
-                        movies.addAll(moveList);
-                        movieAdapter = new MovieAdapter(movies);
-                        movieRecyler.setAdapter(movieAdapter);
-                        layoutManager.getLayoutDirection();
+                        if (pos == 1) {
+                            movieAdapter = new MovieAdapter(moveList);
+                            movieRecyler.setAdapter(movieAdapter);
+                            layoutManager.getLayoutDirection();
+                        } else {
+                            movieAdapter.update(moveList);
+                        }
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<ResultsObject> call, Throwable t) {
                 Log.d("TAG", "Response = " + t.toString());

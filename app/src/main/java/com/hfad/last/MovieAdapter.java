@@ -20,6 +20,7 @@ import static java.security.AccessController.getContext;
 public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder> {
 
     private List<Movie> movies ;
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView ;
         public ViewHolder (CardView v){
@@ -27,6 +28,9 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
             cardView = v;
         }
     }
+
+
+
     public MovieAdapter (List<Movie> movies){
         this.movies=movies;
     }

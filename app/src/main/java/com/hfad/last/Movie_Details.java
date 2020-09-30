@@ -41,6 +41,10 @@ public class Movie_Details {
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
+    @SerializedName("poster_path")
+    @Expose
+    private String posterPath;
+
 
 
 
@@ -116,5 +120,14 @@ public class Movie_Details {
     public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
     }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
 }
 

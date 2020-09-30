@@ -1,8 +1,10 @@
 package com.hfad.last;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,11 +24,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static String url = "/3/discover/movie?api_key=6ddf1da8ede343f82786973e2dd7c457&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
-    public static int pos=1;
+    public static Integer pos=1;
     private RecyclerView movieRecycler;
     private RecyclerView.LayoutManager layoutManager ;
     public MovieAdapter movieAdapter ;
     private static Integer pose = 1;
+    private Boolean running = true;
 
 
     @Override
@@ -35,8 +38,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Setup the ActionPar
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.actionbar);
+        //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        //getSupportActionBar().setCustomView(R.layout.actionbar);
+
+        if (savedInstanceState != null) {
+            running = savedInstanceState.getBoolean("running");
+            pos = savedInstanceState.getInt("pos");
+            pose = savedInstanceState.getInt("pose");
+        }
 
         //Set the recyclerView
         movieRecycler = (RecyclerView) findViewById(R.id.movie_recycler);
@@ -44,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         movieRecycler.setLayoutManager(layoutManager);
 
         //Set the first list
-        Do(url+"1");
+        Do(url+pos.toString());
 
         //Run the the update method
         update();
@@ -53,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     //Update the list when the user get the 5 last card
     private void update (){
         final Handler handler = new Handler();
+        running = true;
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -77,12 +87,12 @@ public class MainActivity extends AppCompatActivity {
                     assert response.body() != null;
                     List<Movie> moveList = response.body().getResults();
                     if (moveList != null) {
-                        if (pos == 1) {
+                        if (running && pos != 1) {
+                            movieAdapter.update(moveList);
+                        } else {
                             movieAdapter = new MovieAdapter(moveList);
                             movieRecycler.setAdapter(movieAdapter);
                             layoutManager.getLayoutDirection();
-                        } else {
-                            movieAdapter.update(moveList);
                         }
                     }
                 }
@@ -93,6 +103,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean("running",running);
+        savedInstanceState.putInt("pos",pos);
+        savedInstanceState.putInt("pose",pose);
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        running = false ;
+    }
+}
 
 

@@ -29,8 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager ;
     public MovieAdapter movieAdapter ;
     private static Integer pose = 1;
-    private Boolean running = true;
-
+    private boolean running = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,9 +41,7 @@ public class MainActivity extends AppCompatActivity {
         //getSupportActionBar().setCustomView(R.layout.actionbar);
 
         if (savedInstanceState != null) {
-            running = savedInstanceState.getBoolean("running");
-            pos = savedInstanceState.getInt("pos");
-            pose = savedInstanceState.getInt("pose");
+          pos = savedInstanceState.getInt("pos");
         }
 
         //Set the recyclerView
@@ -62,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
     //Update the list when the user get the 5 last card
     private void update (){
         final Handler handler = new Handler();
-        running = true;
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -87,12 +83,13 @@ public class MainActivity extends AppCompatActivity {
                     assert response.body() != null;
                     List<Movie> moveList = response.body().getResults();
                     if (moveList != null) {
-                        if (running && pos != 1) {
+                        if (running) {
                             movieAdapter.update(moveList);
                         } else {
                             movieAdapter = new MovieAdapter(moveList);
                             movieRecycler.setAdapter(movieAdapter);
                             layoutManager.getLayoutDirection();
+                            running = true ;
                         }
                     }
                 }
@@ -107,15 +104,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean("running",running);
         savedInstanceState.putInt("pos",pos);
-        savedInstanceState.putInt("pose",pose);
+        savedInstanceState.putBoolean("running",running);
     }
     @Override
     protected void onPause() {
         super.onPause();
-        running = false ;
+        running = false;
     }
+
+
 }
 
 

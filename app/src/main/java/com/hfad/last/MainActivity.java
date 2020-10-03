@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(pos>pose){
+                    Do(url+pos.toString());
                     pose+=1;
-                    Do(url+pose.toString());
                 }
                 handler.postDelayed(this,1000);
             }
@@ -81,14 +81,18 @@ public class MainActivity extends AppCompatActivity {
                     assert response.body() != null;
                     List<Movie> moveList = response.body().getResults();
                     if (moveList != null) {
-                        if(myMovie.getMyList()==null) { myMovie.setMyList(moveList); }
-                        else { myMovie.MovieUpdate(moveList); }
-                        if (!running)
+                        if (myMovie.getMyList() == null) {
+                            myMovie.setMyList(moveList);
+                        } else {if(pos>(myMovie.getMyList().size()/20))
+                            myMovie.MovieUpdate(moveList);
+                        }
+                        if (!running) {
                             movieAdapter = new MovieAdapter();
                             movieRecycler.setAdapter(movieAdapter);
                             layoutManager.getLayoutDirection();
                             running = true;
                         }
+                    }
                     }
                 }
             @Override
@@ -103,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt("pos",pos);
         savedInstanceState.putInt("pose",pose);
-
     }
 
     @Override

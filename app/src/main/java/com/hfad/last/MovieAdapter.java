@@ -16,7 +16,6 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder> {
 
-    private List<Movie> movies ;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView ;
@@ -24,10 +23,6 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
             super(v);
             cardView = v;
         }
-    }
-
-    public MovieAdapter (List<Movie> movies){
-        this.movies=movies;
     }
 
     @NonNull
@@ -42,9 +37,9 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
         CardView cardView = holder.cardView;
         TextView name = (TextView) cardView.findViewById(R.id.movie_name);
         TextView realised_data = (TextView) cardView.findViewById(R.id.movie_realised_data);
-        name.setText(movies.get(position).getTitle());
-        realised_data.setText(movies.get(position).getReleaseDate());
-        Picasso.get().load("https://image.tmdb.org/t/p/w185" + movies.get(position).getPosterPath()).into(holder.cardView.<ImageView>findViewById(R.id.movie_image));
+        name.setText(MainActivity.myMovie.getMyList().get(position).getTitle());
+        realised_data.setText(MainActivity.myMovie.getMyList().get(position).getReleaseDate());
+        Picasso.get().load("https://image.tmdb.org/t/p/w185" + MainActivity.myMovie.getMyList().get(position).getPosterPath()).into(holder.cardView.<ImageView>findViewById(R.id.movie_image));
 
         if (position>=(MainActivity.pos*10*2-5)){
             MainActivity.pos +=1;
@@ -54,8 +49,8 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), Details_Activity.class);
-                intent.putExtra("id",movies.get(position).getId());
-                intent.putExtra("name",movies.get(position).getTitle());
+                intent.putExtra("id",MainActivity.myMovie.getMyList().get(position).getId());
+                intent.putExtra("name",MainActivity.myMovie.getMyList().get(position).getTitle());
                 v.getContext().startActivity(intent);
             }
 
@@ -66,12 +61,7 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return movies.size();
+        return MainActivity.myMovie.getMyList().size();
     }
 
-    public void update (List<Movie> moviess)
-    {
-        this.movies.addAll(moviess);
-
-    }
-}
+   }

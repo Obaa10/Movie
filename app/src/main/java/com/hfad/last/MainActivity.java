@@ -2,9 +2,8 @@ package com.hfad.last;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,15 +29,18 @@ public class MainActivity extends AppCompatActivity {
     public MovieAdapter movieAdapter ;
     private static Integer pose = 1;
     private boolean running = false;
+    public static MyMovie myMovie;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState != null) {
-          pos = savedInstanceState.getInt("pos");
+        if (savedInstanceState!=null) {
+            pos = savedInstanceState.getInt("pos");
+            pose = savedInstanceState.getInt("pose");
         }
+        myMovie = ViewModelProviders.of(this).get(MyMovie.class);
 
         //Set the recyclerView
         movieRecycler = (RecyclerView) findViewById(R.id.movie_recycler);
@@ -79,17 +81,16 @@ public class MainActivity extends AppCompatActivity {
                     assert response.body() != null;
                     List<Movie> moveList = response.body().getResults();
                     if (moveList != null) {
-                        if (running) {
-                            movieAdapter.update(moveList);
-                        } else {
-                            movieAdapter = new MovieAdapter(moveList);
+                        if(myMovie.getMyList()==null) { myMovie.setMyList(moveList); }
+                        else { myMovie.MovieUpdate(moveList); }
+                        if (!running)
+                            movieAdapter = new MovieAdapter();
                             movieRecycler.setAdapter(movieAdapter);
                             layoutManager.getLayoutDirection();
-                            running = true ;
+                            running = true;
                         }
                     }
                 }
-            }
             @Override
             public void onFailure(Call<ResultsObject> call, Throwable t) {
                 Log.d("TAG", "Response = " + t.toString());
@@ -101,15 +102,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt("pos",pos);
-        savedInstanceState.putBoolean("running",running);
+        savedInstanceState.putInt("pose",pose);
+
     }
+
     @Override
     protected void onPause() {
         super.onPause();
         running = false;
     }
-
-
 }
 
 

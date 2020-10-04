@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     Do(url+pos.toString());
                     pose+=1;
                 }
-                handler.postDelayed(this,1000);
+                handler.postDelayed(this,500);
             }
         }
         );

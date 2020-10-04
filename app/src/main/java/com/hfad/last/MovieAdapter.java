@@ -37,10 +37,11 @@ public class MovieAdapter extends RecyclerView.Adapter <MovieAdapter.ViewHolder>
         CardView cardView = holder.cardView;
         TextView name = (TextView) cardView.findViewById(R.id.movie_name);
         TextView realised_data = (TextView) cardView.findViewById(R.id.movie_realised_data);
+        TextView vote_average = (TextView) cardView.findViewById(R.id.movie_vote);
         name.setText(MainActivity.myMovie.getMyList().get(position).getTitle());
         realised_data.setText(MainActivity.myMovie.getMyList().get(position).getReleaseDate());
         Picasso.get().load("https://image.tmdb.org/t/p/w185" + MainActivity.myMovie.getMyList().get(position).getPosterPath()).into(holder.cardView.<ImageView>findViewById(R.id.movie_image));
-
+        vote_average.setText(MainActivity.myMovie.getMyList().get(position).getVoteAverage().toString());
         if (position>=(MainActivity.pos*10*2-5)){
             MainActivity.pos +=1;
         }

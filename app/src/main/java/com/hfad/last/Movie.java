@@ -18,7 +18,9 @@ public class Movie {
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
-
+    @SerializedName("vote_average")
+    @Expose
+    private Float voteAverage;
 
     public String getPosterPath() {
         return posterPath;
@@ -50,6 +52,14 @@ public class Movie {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public Float getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(Float voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
 }

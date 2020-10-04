@@ -29,10 +29,8 @@ public class Details_Activity extends AppCompatActivity {
 
         //Setup the ActionPar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle((String) getIntent().getExtras().get("name"));
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         id = (Integer) getIntent().getExtras().get("id");
         url = "/3/movie/" + id.toString() + "?api_key=6ddf1da8ede343f82786973e2dd7c457";
@@ -75,5 +73,7 @@ public class Details_Activity extends AppCompatActivity {
         populate.setText(movieDetails.getPopularity().toString());
         TextView runtime = (TextView) findViewById(R.id.runtime);
         runtime.setText(movieDetails.getRuntime().toString());
+        TextView title = (TextView) findViewById(R.id.detail_title);
+        title.setText(movieDetails.getOriginalTitle());
     }
 }

@@ -1,9 +1,9 @@
-package com.hfad.last;
+package com.hfad.last.Network;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitGetData {
+public class RetrofitGetDataService {
 
     private static Retrofit retrofit;
     private static final String BASE_URL = "https://api.themoviedb.org";

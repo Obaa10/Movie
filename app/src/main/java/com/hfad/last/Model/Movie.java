@@ -1,4 +1,4 @@
-package com.hfad.last;
+package com.hfad.last.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -33,33 +33,13 @@ public class Movie {
     public Integer getId() {
         return id;
     }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
     }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getReleaseDate() {
         return releaseDate;
     }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
     public Float getVoteAverage() {
         return voteAverage;
     }
-
-    public void setVoteAverage(Float voteAverage) {
-        this.voteAverage = voteAverage;
-    }
-
 }

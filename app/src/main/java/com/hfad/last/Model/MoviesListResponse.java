@@ -2,18 +2,17 @@ package com.hfad.last.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.hfad.last.Model.Movie;
 
 import java.util.List;
 
-public class MoviesList {
+public class MoviesListResponse {
 
     @SerializedName("results")
     @Expose
-    private List<Movie> results = null;
+    private List<MovieResponse> results = null;
 
 
-    public List<Movie> getResults() {
+    public List<MovieResponse> getResults() {
         return results;
     }
 }

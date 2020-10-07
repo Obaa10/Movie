@@ -3,7 +3,7 @@ package com.hfad.last.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MovieDetails {
+public class MovieDetailsResponse {
 
     @SerializedName("adult")
     @Expose

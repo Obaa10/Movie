@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hfad.last.Adapter.MovieAdapter;
-import com.hfad.last.Interface.GetMovieDetails;
-import com.hfad.last.Model.MovieDetails;
+import com.hfad.last.Interface.GetMovieDetailsRequest;
+import com.hfad.last.Model.MovieDetailsResponse;
 import com.hfad.last.R;
 import com.hfad.last.Network.RetrofitGetDataService;
 import com.squareup.picasso.Picasso;
@@ -40,40 +40,40 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void fetchMovieDetails (String movieUrl){
-        GetMovieDetails apiService = RetrofitGetDataService.getRetrofitInstance().create(GetMovieDetails.class);
-        Call<MovieDetails> call = apiService.getAllDetails(movieUrl);
-        call.enqueue(new Callback<MovieDetails>() {
+        GetMovieDetailsRequest apiService = RetrofitGetDataService.getRetrofitInstance().create(GetMovieDetailsRequest.class);
+        Call<MovieDetailsResponse> call = apiService.getAllDetails(movieUrl);
+        call.enqueue(new Callback<MovieDetailsResponse>() {
             @Override
-            public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
+            public void onResponse(Call<MovieDetailsResponse> call, Response<MovieDetailsResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
-                     MovieDetails movieDetails = response.body();
-                     attachDataToView(movieDetails);
+                     MovieDetailsResponse movieDetailsResponse = response.body();
+                     attachDataToView(movieDetailsResponse);
                 }
             }
             @Override
-            public void onFailure(Call<MovieDetails> call, Throwable t) {
+            public void onFailure(Call<MovieDetailsResponse> call, Throwable t) {
                 Log.d("TAG", "Response = " + t.toString());
             }
         });
     }
 
-    private void attachDataToView (MovieDetails movieDetails){
+    private void attachDataToView (MovieDetailsResponse movieDetailsResponse){
         ImageView imageView = findViewById(R.id.backdrop);
-        Picasso.get().load("https://image.tmdb.org/t/p/w500" + movieDetails.getPosterPath()).resize(imageView.getWidth(),0).into(imageView);
+        Picasso.get().load("https://image.tmdb.org/t/p/w500" + movieDetailsResponse.getPosterPath()).resize(imageView.getWidth(),0).into(imageView);
         TextView movieVoteAverage = findViewById(R.id.vote_average);
-        movieVoteAverage.setText(movieDetails.getVoteAverage().toString());
+        movieVoteAverage.setText(movieDetailsResponse.getVoteAverage().toString());
         TextView movieOverView = findViewById(R.id.overview);
-        movieOverView.setText("OverView"+"\n"+movieDetails.getOverview());
+        movieOverView.setText("OverView"+"\n"+ movieDetailsResponse.getOverview());
         TextView movieLanguage = findViewById(R.id.language);
-        movieLanguage.setText(movieDetails.getOriginalLanguage());
+        movieLanguage.setText(movieDetailsResponse.getOriginalLanguage());
         TextView isAdult = findViewById(R.id.adult);
-        isAdult.setText("Adult"+"\n"+movieDetails.getAdult().toString());
+        isAdult.setText("Adult"+"\n"+ movieDetailsResponse.getAdult().toString());
         TextView moviePopulate = findViewById(R.id.Popularity);
-        moviePopulate.setText(movieDetails.getPopularity().toString());
+        moviePopulate.setText(movieDetailsResponse.getPopularity().toString());
         TextView movieRuntime =  findViewById(R.id.runtime);
-        movieRuntime.setText(movieDetails.getRuntime().toString());
+        movieRuntime.setText(movieDetailsResponse.getRuntime().toString());
         TextView movieTitle = findViewById(R.id.detail_title);
-        movieTitle.setText(movieDetails.getOriginalTitle());
+        movieTitle.setText(movieDetailsResponse.getOriginalTitle());
     }
 }

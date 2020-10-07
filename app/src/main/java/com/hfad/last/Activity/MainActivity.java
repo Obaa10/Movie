@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.last.Adapter.MovieAdapter;
-import com.hfad.last.Interface.GetMovieListService;
-import com.hfad.last.Model.Movie;
-import com.hfad.last.Model.MoviesList;
+import com.hfad.last.Interface.GetMovieListRequest;
+import com.hfad.last.Model.MovieResponse;
+import com.hfad.last.Model.MoviesListResponse;
 import com.hfad.last.MoviesListViewModel;
 import com.hfad.last.Network.RetrofitGetDataService;
 import com.hfad.last.R;
@@ -83,20 +83,20 @@ public class MainActivity extends AppCompatActivity {
 
     //Get the movie data from the internet
     private void fetchMovieDetails(String movieUrl) {
-        GetMovieListService apiService = RetrofitGetDataService.getRetrofitInstance().create(GetMovieListService.class);
-        Call<MoviesList> call = apiService.getAllMovies(movieUrl);
-        call.enqueue(new Callback<MoviesList>() {
+        GetMovieListRequest apiService = RetrofitGetDataService.getRetrofitInstance().create(GetMovieListRequest.class);
+        Call<MoviesListResponse> call = apiService.getAllMovies(movieUrl);
+        call.enqueue(new Callback<MoviesListResponse>() {
             @Override
-            public void onResponse(Call<MoviesList> call, Response<MoviesList> response) {
+            public void onResponse(Call<MoviesListResponse> call, Response<MoviesListResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
-                    List<Movie> movieList = response.body().getResults();
-                    if (movieList != null) {
+                    List<MovieResponse> movieResponseList = response.body().getResults();
+                    if (movieResponseList != null) {
                         if (moviesListViewModelViewModel.getFinalMoviesList() == null) {
-                            moviesListViewModelViewModel.setFinalMoviesList(movieList);
+                            moviesListViewModelViewModel.setFinalMoviesList(movieResponseList);
                         } else {
                             if (currentlyMovieListPage > (moviesListViewModelViewModel.getFinalMoviesList().size() / 20))
-                                moviesListViewModelViewModel.MovieUpdate(movieList);
+                                moviesListViewModelViewModel.MovieUpdate(movieResponseList);
                         }
                         if (!appIsRunning) {
                             recyclerViewAdapter = new MovieAdapter();
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MoviesList> call, Throwable t) {
+            public void onFailure(Call<MoviesListResponse> call, Throwable t) {
                 Log.d("TAG", "Response = " + t.toString());
             }
         });

@@ -1,4 +1,4 @@
-package com.hfad.last.Model;
+package com.hfad.last.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -1,4 +1,4 @@
-package com.hfad.last.Activity;
+package com.hfad.last.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,11 +8,11 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hfad.last.Adapter.MovieAdapter;
-import com.hfad.last.Interface.GetMovieDetailsRequest;
-import com.hfad.last.Model.MovieDetailsResponse;
+import com.hfad.last.adapter.MovieAdapter;
+import com.hfad.last.network.Interface.GetMovieDetailsInterface;
+import com.hfad.last.model.MovieDetailsResponse;
 import com.hfad.last.R;
-import com.hfad.last.Network.RetrofitGetDataService;
+import com.hfad.last.network.RetrofitGetDataService;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
@@ -40,7 +40,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void fetchMovieDetails (String movieUrl){
-        GetMovieDetailsRequest apiService = RetrofitGetDataService.getRetrofitInstance().create(GetMovieDetailsRequest.class);
+        GetMovieDetailsInterface apiService = RetrofitGetDataService.getRetrofitInstance().create(GetMovieDetailsInterface.class);
         Call<MovieDetailsResponse> call = apiService.getAllDetails(movieUrl);
         call.enqueue(new Callback<MovieDetailsResponse>() {
             @Override

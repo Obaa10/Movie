@@ -1,4 +1,4 @@
-package com.hfad.last.Network;
+package com.hfad.last.network;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

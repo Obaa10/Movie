@@ -1,4 +1,4 @@
-package com.hfad.last.Adapter;
+package com.hfad.last.adapter;
 
 
 import android.content.Intent;
@@ -12,16 +12,28 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hfad.last.Activity.DetailsActivity;
-import com.hfad.last.Activity.MainActivity;
+import com.hfad.last.activity.DetailsActivity;
+import com.hfad.last.activity.MainActivity;
 import com.hfad.last.R;
+import com.hfad.last.model.MovieResponse;
+import com.hfad.last.viewmodel.MoviesListViewModel;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     public final static String MOVIE_ID = "movieId";
 
+
+    private List<MovieResponse> movieResponses ;
+
+
+    public MovieAdapter (){
+        movieResponses = new ArrayList<>();
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView movieCardViewM;
@@ -45,19 +57,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         TextView movieName = cardView.findViewById(R.id.movie_name);
         TextView movieRealisedData = cardView.findViewById(R.id.movie_realised_data);
         TextView movieVoteAverage = cardView.findViewById(R.id.movie_vote);
-        movieName.setText(MainActivity.moviesListViewModelViewModel.getFinalMoviesList().get(movieCardPosition).getTitle());
-        movieRealisedData.setText(MainActivity.moviesListViewModelViewModel.getFinalMoviesList().get(movieCardPosition).getReleaseDate());
-        Picasso.get().load("https://image.tmdb.org/t/p/w185" + MainActivity.moviesListViewModelViewModel.getFinalMoviesList().get(movieCardPosition).getPosterPath()).into(holder.movieCardViewM.<ImageView>findViewById(R.id.movie_image));
-        movieVoteAverage.setText(MainActivity.moviesListViewModelViewModel.getFinalMoviesList().get(movieCardPosition).getVoteAverage().toString());
-        if (movieCardPosition >= (MainActivity.currentlyMovieListPage * 10 * 2 - 5)) {
-            MainActivity.currentlyMovieListPage += 1;
+        movieName.setText(movieResponses.get(movieCardPosition).getTitle());
+        movieRealisedData.setText(movieResponses.get(movieCardPosition).getReleaseDate());
+        Picasso.get().load("https://image.tmdb.org/t/p/w185" + movieResponses.get(movieCardPosition).getPosterPath()).into(holder.movieCardViewM.<ImageView>findViewById(R.id.movie_image));
+        movieVoteAverage.setText(movieResponses.get(movieCardPosition).getVoteAverage().toString());
+        if (movieCardPosition >= (MoviesListViewModel.currentlyMovieListPage * 10 * 2 - 5)) {
+            MoviesListViewModel.currentlyMovieListPage += 1;
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), DetailsActivity.class);
-                intent.putExtra(MOVIE_ID, MainActivity.moviesListViewModelViewModel.getFinalMoviesList().get(movieCardPosition).getId());
+                intent.putExtra(MOVIE_ID, movieResponses.get(movieCardPosition).getId());
                 v.getContext().startActivity(intent);
             }
 
@@ -66,9 +78,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     }
 
+    public void addAll(List<MovieResponse> list){
+        for (int i=0;i<20;i++){
+            movieResponses.add(list.get(i));
+            notifyDataSetChanged();
+        }
+    }
+
     @Override
     public int getItemCount() {
-        return MainActivity.moviesListViewModelViewModel.getFinalMoviesList().size();
+        return movieResponses.size();
     }
 
 }

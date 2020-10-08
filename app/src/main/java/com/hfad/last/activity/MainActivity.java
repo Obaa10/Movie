@@ -1,4 +1,4 @@
-package com.hfad.last.Activity;
+package com.hfad.last.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,16 +7,17 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hfad.last.Adapter.MovieAdapter;
-import com.hfad.last.Interface.GetMovieListRequest;
-import com.hfad.last.Model.MovieResponse;
-import com.hfad.last.Model.MoviesListResponse;
-import com.hfad.last.MoviesListViewModel;
-import com.hfad.last.Network.RetrofitGetDataService;
+import com.hfad.last.adapter.MovieAdapter;
+import com.hfad.last.network.Interface.GetMovieListInterface;
+import com.hfad.last.model.MovieResponse;
+import com.hfad.last.model.MoviesListResponse;
+import com.hfad.last.viewmodel.MoviesListViewModel;
+import com.hfad.last.network.RetrofitGetDataService;
 import com.hfad.last.R;
 
 import java.util.List;
@@ -28,44 +29,29 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final static String CURRENTLY_MOVIE_LIST_PAGE = "currentlyMovieListPage";
-    public final static String NEXT_MOVIE_LIST_PAGE = "nextMovieListPage";
 
-    private static String moviesListUrl = "/3/discover/movie?api_key=6ddf1da8ede343f82786973e2dd7c457&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
-    public static Integer currentlyMovieListPage = 1;
-    private static Integer nextMovieListPage = 1;
-    private RecyclerView movieRecyclerView;
-    private RecyclerView.LayoutManager recyclerViewManager;
     public MovieAdapter recyclerViewAdapter;
-    private boolean appIsRunning = false;
-    public static MoviesListViewModel moviesListViewModelViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState != null) {
-            currentlyMovieListPage = savedInstanceState.getInt(CURRENTLY_MOVIE_LIST_PAGE);
-            nextMovieListPage = savedInstanceState.getInt(NEXT_MOVIE_LIST_PAGE);
-        }
-
-
-        moviesListViewModelViewModel = new ViewModelProvider(this).get(MoviesListViewModel.class);
 
         //Set the recyclerView
-        movieRecyclerView = findViewById(R.id.movie_recycler);
-        recyclerViewManager = new LinearLayoutManager(this);
+        RecyclerView movieRecyclerView = findViewById(R.id.movie_recycler);
+        RecyclerView.LayoutManager recyclerViewManager = new LinearLayoutManager(this);
         movieRecyclerView.setLayoutManager(recyclerViewManager);
+        recyclerViewAdapter = new MovieAdapter();
+        movieRecyclerView.setAdapter(recyclerViewAdapter);
 
-        //Set the first list
-        fetchMovieDetails(moviesListUrl + currentlyMovieListPage.toString());
+        final MoviesListViewModel moviesListViewModel = new ViewModelProvider(this).get(MoviesListViewModel.class);
 
-        updateMovieList();
+        observeViewModel(moviesListViewModel);
     }
 
     //Update the list when the user get the 5 last card
-    private void updateMovieList() {
+   /* private void updateMovieList() {
         final Handler handler = new Handler();
         handler.post(new Runnable() {
                          @Override
@@ -80,10 +66,11 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    */
 
     //Get the movie data from the internet
-    private void fetchMovieDetails(String movieUrl) {
-        GetMovieListRequest apiService = RetrofitGetDataService.getRetrofitInstance().create(GetMovieListRequest.class);
+   /* private void fetchMovieDetails(String movieUrl) {
+        GetMovieListInterface apiService = RetrofitGetDataService.getRetrofitInstance().create(GetMovieListInterface.class);
         Call<MoviesListResponse> call = apiService.getAllMovies(movieUrl);
         call.enqueue(new Callback<MoviesListResponse>() {
             @Override
@@ -114,19 +101,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    */
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putInt(CURRENTLY_MOVIE_LIST_PAGE, currentlyMovieListPage);
-        savedInstanceState.putInt(NEXT_MOVIE_LIST_PAGE, nextMovieListPage);
-    }
+   private void observeViewModel(MoviesListViewModel moviesListViewModel){
+       moviesListViewModel.getAllMovieList().observe(this, new Observer<MoviesListResponse>() {
+           @Override
+           public void onChanged(MoviesListResponse moviesListResponse) {
+               if(moviesListResponse !=null ){
+                    recyclerViewAdapter.addAll(moviesListResponse.getResults());
+               }
+           }
+       });
+   }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        appIsRunning = false;
-    }
 }
 
 

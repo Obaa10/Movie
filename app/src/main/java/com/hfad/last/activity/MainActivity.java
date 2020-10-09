@@ -1,10 +1,8 @@
 package com.hfad.last.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -13,18 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.last.adapter.MovieAdapter;
-import com.hfad.last.network.Interface.GetMovieListInterface;
-import com.hfad.last.model.MovieResponse;
-import com.hfad.last.model.MoviesListResponse;
+import com.hfad.last.model.MoviesListResponseModel;
 import com.hfad.last.viewmodel.MoviesListViewModel;
-import com.hfad.last.network.RetrofitGetDataService;
 import com.hfad.last.R;
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -50,7 +41,23 @@ public class MainActivity extends AppCompatActivity {
         observeViewModel(moviesListViewModel);
     }
 
-    //Update the list when the user get the 5 last card
+
+    private void observeViewModel(MoviesListViewModel moviesListViewModel) {
+        moviesListViewModel.getAllMovieList().observe(this, new Observer<ArrayList<MoviesListResponseModel>>() {
+            @Override
+            public void onChanged(ArrayList<MoviesListResponseModel> moviesListResponseModels) {
+                if (moviesListResponseModels.get(0) != null) {
+                    recyclerViewAdapter.addAll(moviesListResponseModels.get(0));
+                }
+            }
+        });
+    }
+}
+
+
+// Toast.makeText(getApplicationContext(),"The text you want to display",Toast.LENGTH_LONG).show();
+
+//Update the list when the user get the 5 last card
    /* private void updateMovieList() {
         final Handler handler = new Handler();
         handler.post(new Runnable() {
@@ -68,13 +75,13 @@ public class MainActivity extends AppCompatActivity {
 
     */
 
-    //Get the movie data from the internet
+//Get the movie data from the internet
    /* private void fetchMovieDetails(String movieUrl) {
         GetMovieListInterface apiService = RetrofitGetDataService.getRetrofitInstance().create(GetMovieListInterface.class);
-        Call<MoviesListResponse> call = apiService.getAllMovies(movieUrl);
-        call.enqueue(new Callback<MoviesListResponse>() {
+        Call<MoviesListResponseModel> call = apiService.getAllMovies(movieUrl);
+        call.enqueue(new Callback<MoviesListResponseModel>() {
             @Override
-            public void onResponse(Call<MoviesListResponse> call, Response<MoviesListResponse> response) {
+            public void onResponse(Call<MoviesListResponseModel> call, Response<MoviesListResponseModel> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     List<MovieResponse> movieResponseList = response.body().getResults();
@@ -96,24 +103,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MoviesListResponse> call, Throwable t) {
+            public void onFailure(Call<MoviesListResponseModel> call, Throwable t) {
                 Log.d("TAG", "Response = " + t.toString());
             }
         });
     }
     */
-
-   private void observeViewModel(MoviesListViewModel moviesListViewModel){
-       moviesListViewModel.getAllMovieList().observe(this, new Observer<MoviesListResponse>() {
-           @Override
-           public void onChanged(MoviesListResponse moviesListResponse) {
-               if(moviesListResponse !=null ){
-                    recyclerViewAdapter.addAll(moviesListResponse.getResults());
-               }
-           }
-       });
-   }
-
-}
 
 

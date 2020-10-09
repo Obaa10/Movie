@@ -16,6 +16,7 @@ import com.hfad.last.activity.DetailsActivity;
 import com.hfad.last.activity.MainActivity;
 import com.hfad.last.R;
 import com.hfad.last.model.MovieResponse;
+import com.hfad.last.model.MoviesListResponseModel;
 import com.hfad.last.viewmodel.MoviesListViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -78,11 +79,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     }
 
-    public void addAll(List<MovieResponse> list){
-        for (int i=0;i<20;i++){
-            movieResponses.add(list.get(i));
-            notifyDataSetChanged();
-        }
+    public void addAll(MoviesListResponseModel list){
+         movieResponses.add(0,list.getResults().get(3));
+         notifyDataSetChanged();
     }
 
     @Override

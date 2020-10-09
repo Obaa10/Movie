@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.hfad.last.model.MoviesListResponse;
+import com.hfad.last.model.MoviesListResponseModel;
 import com.hfad.last.network.Interface.GetMovieListInterface;
 import com.hfad.last.network.RetrofitGetDataService;
 import com.hfad.last.viewmodel.MoviesListViewModel;
@@ -24,21 +24,21 @@ public class Repository {
 
     }
 
-    public LiveData<MoviesListResponse> getMovieList() {
+    public MoviesListResponseModel getMovieList() {
 
-        final MutableLiveData<MoviesListResponse> mMovieList = new MutableLiveData<>();
+        final MoviesListResponseModel[] mMovieList = {new MoviesListResponseModel()};
 
-        mApiService.getAllMovies(moviesListUrl+ MoviesListViewModel.currentlyMovieListPage.toString()).enqueue(new Callback<MoviesListResponse>() {
+        mApiService.getAllMovies(moviesListUrl+ MoviesListViewModel.currentlyMovieListPage.toString()).enqueue(new Callback<MoviesListResponseModel>() {
             @Override
-            public void onResponse(Call<MoviesListResponse> call, Response<MoviesListResponse> response) {
-                mMovieList.setValue(response.body());
+            public void onResponse(Call<MoviesListResponseModel> call, Response<MoviesListResponseModel> response) {
+                mMovieList[0] = response.body();
             }
 
             @Override
-            public void onFailure(Call<MoviesListResponse> call, Throwable t) {
+            public void onFailure(Call<MoviesListResponseModel> call, Throwable t) {
                 Log.d("TAG", "Response = " + t.toString());
             }
         });
-        return mMovieList;
+        return mMovieList[0];
     }
 }

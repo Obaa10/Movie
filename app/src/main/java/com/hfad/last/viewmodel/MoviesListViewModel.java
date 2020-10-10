@@ -13,22 +13,27 @@ import java.util.ArrayList;
 public class MoviesListViewModel extends ViewModel {
     public static MutableLiveData<ArrayList<MoviesListResponseModel>> allMovieList;
     public static ArrayList<MoviesListResponseModel> movies;
-    public static Integer currentlyMovieListPage = 1;
-    private Repository repository ;
-    //private static Integer nextMovieListPage = 1;
+    public static Integer currentlyMovieListPage = 0;
+    public static MutableLiveData<Integer> currentlyMovieListPageM;
+    private Repository repository;
 
     public MoviesListViewModel() {
         allMovieList = new MutableLiveData<>();
+        currentlyMovieListPageM = new MutableLiveData<>();
         movies = new ArrayList<>();
         repository = new Repository();
-        update(1);
+        update(0);
     }
 
-    private void update(Integer ip) {
-        repository.getMovieList(ip);
+    public void update(Integer ip) {
+        repository.getMovieList(ip + 1);
     }
 
     public LiveData<ArrayList<MoviesListResponseModel>> getAllMovieList() {
         return allMovieList;
+    }
+
+    public LiveData<Integer> getCurrentlyMovieListPage() {
+        return currentlyMovieListPageM;
     }
 }

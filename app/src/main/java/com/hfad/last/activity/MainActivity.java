@@ -2,6 +2,7 @@ package com.hfad.last.activity;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -21,13 +22,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     public MovieAdapter recyclerViewAdapter;
+    public static Boolean appWasRunning = true;
+    private static final String APP_WAS_RUNNING = "appWasRunning";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        if (savedInstanceState != null) {
+            appWasRunning = false;
+        }
         //Set the recyclerView
         RecyclerView movieRecyclerView = findViewById(R.id.movie_recycler);
         RecyclerView.LayoutManager recyclerViewManager = new LinearLayoutManager(this);
@@ -36,19 +41,42 @@ public class MainActivity extends AppCompatActivity {
         movieRecyclerView.setAdapter(recyclerViewAdapter);
 
         final MoviesListViewModel moviesListViewModel = new ViewModelProvider(this).get(MoviesListViewModel.class);
-
         observeViewModel(moviesListViewModel);
     }
 
-
-    private void observeViewModel(MoviesListViewModel moviesListViewModel) {
+    private void observeViewModel(final MoviesListViewModel moviesListViewModel) {
+        if (!appWasRunning) {
+            recyclerViewAdapter.create();
+            appWasRunning = true;
+        }
         moviesListViewModel.getAllMovieList().observe(this, new Observer<ArrayList<MoviesListResponseModel>>() {
             @Override
             public void onChanged(ArrayList<MoviesListResponseModel> moviesListResponseModels) {
-                    recyclerViewAdapter.addAll(moviesListResponseModels.get(0).getResults());
+                recyclerViewAdapter.addAll(moviesListResponseModels.get(MoviesListViewModel.currentlyMovieListPage).getResults());
             }
         });
+        moviesListViewModel.getCurrentlyMovieListPage().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                moviesListViewModel.update(integer);
+            }
+        });
+
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        appWasRunning = false;
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean(APP_WAS_RUNNING, appWasRunning);
+    }
+
+
 }
 
 

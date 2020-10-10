@@ -27,10 +27,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public final static String MOVIE_ID = "movieId";
 
 
-    private List<MovieResponse> movieResponses ;
+    private List<MovieResponse> movieResponses;
 
 
-    public MovieAdapter (){
+    public MovieAdapter() {
         movieResponses = new ArrayList<>();
     }
 
@@ -59,10 +59,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         movieName.setText(movieResponses.get(movieCardPosition).getTitle());
         movieRealisedData.setText(movieResponses.get(movieCardPosition).getReleaseDate());
         Picasso.get().load("https://image.tmdb.org/t/p/w185" + movieResponses.get(movieCardPosition).getPosterPath()).into(holder.movieCardViewM.<ImageView>findViewById(R.id.movie_image));
-       // movieVoteAverage.setText(movieResponses.get(movieCardPosition).getVoteAverage().toString());
-        if (movieCardPosition >= (MoviesListViewModel.currentlyMovieListPage * 10 * 2 - 5)) {
-            MoviesListViewModel.currentlyMovieListPage += 1;
+        // movieVoteAverage.setText(movieResponses.get(movieCardPosition).getVoteAverage().toString());
+        if (movieCardPosition >= (MoviesListViewModel.currentlyMovieListPage * 20) - 5) {
+            MoviesListViewModel.currentlyMovieListPage++;
+            MoviesListViewModel.currentlyMovieListPageM.setValue(MoviesListViewModel.currentlyMovieListPage);
         }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,13 +75,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             }
 
         });
-
-
     }
 
-    public void addAll(List <MovieResponse> list){
-         movieResponses.addAll(list);
-         notifyDataSetChanged();
+    public void addAll(List<MovieResponse> list) {
+        movieResponses.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void create() {
+        movieResponses.clear();
+        for (int i = 0; i < MoviesListViewModel.currentlyMovieListPage; i++)
+            movieResponses.addAll(MoviesListViewModel.movies.get(i).getResults());
     }
 
     @Override

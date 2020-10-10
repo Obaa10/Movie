@@ -23,7 +23,7 @@ public class Repository {
         call.enqueue(new Callback<MoviesListResponseModel>() {
             @Override
             public void onResponse(Call<MoviesListResponseModel> call, Response<MoviesListResponseModel> response) {
-                MoviesListViewModel.movies.add(0,response.body());
+                MoviesListViewModel.movies.add(MoviesListViewModel.currentlyMovieListPage,response.body());
                 MoviesListViewModel.allMovieList.setValue(MoviesListViewModel.movies);
             }
             @Override

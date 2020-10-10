@@ -14,7 +14,7 @@ public class MoviesListViewModel extends ViewModel {
     public static MutableLiveData<ArrayList<MoviesListResponseModel>> allMovieList;
     public static ArrayList<MoviesListResponseModel> movies;
     public static Integer currentlyMovieListPage = 1;
-    Repository repository ;
+    private Repository repository ;
     //private static Integer nextMovieListPage = 1;
 
     public MoviesListViewModel() {
@@ -24,7 +24,7 @@ public class MoviesListViewModel extends ViewModel {
         update(1);
     }
 
-    public void update(Integer ip) {
+    private void update(Integer ip) {
         repository.getMovieList(ip);
     }
 

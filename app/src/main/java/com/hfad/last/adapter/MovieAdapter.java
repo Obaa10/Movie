@@ -61,7 +61,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         movieName.setText(movieResponses.get(movieCardPosition).getTitle());
         movieRealisedData.setText(movieResponses.get(movieCardPosition).getReleaseDate());
         Picasso.get().load("https://image.tmdb.org/t/p/w185" + movieResponses.get(movieCardPosition).getPosterPath()).into(holder.movieCardViewM.<ImageView>findViewById(R.id.movie_image));
-        movieVoteAverage.setText(movieResponses.get(movieCardPosition).getVoteAverage().toString());
+       // movieVoteAverage.setText(movieResponses.get(movieCardPosition).getVoteAverage().toString());
         if (movieCardPosition >= (MoviesListViewModel.currentlyMovieListPage * 10 * 2 - 5)) {
             MoviesListViewModel.currentlyMovieListPage += 1;
         }
@@ -79,8 +79,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     }
 
-    public void addAll(MoviesListResponseModel list){
-         movieResponses.add(0,list.getResults().get(3));
+    public void addAll(MovieResponse list){
+         movieResponses.add(list);
          notifyDataSetChanged();
     }
 

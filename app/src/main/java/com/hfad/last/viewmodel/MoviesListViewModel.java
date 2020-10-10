@@ -10,19 +10,22 @@ import com.hfad.last.repository.Repository;
 import java.util.ArrayList;
 
 
-
 public class MoviesListViewModel extends ViewModel {
-    private MutableLiveData<ArrayList<MoviesListResponseModel>> allMovieList;
+    public static MutableLiveData<ArrayList<MoviesListResponseModel>> allMovieList;
+    public static ArrayList<MoviesListResponseModel> movies;
     public static Integer currentlyMovieListPage = 1;
+    Repository repository ;
     //private static Integer nextMovieListPage = 1;
 
-    public MoviesListViewModel (){
+    public MoviesListViewModel() {
         allMovieList = new MutableLiveData<>();
-        Repository repository = new Repository();
-        ArrayList<MoviesListResponseModel> movies = new ArrayList<>();
-        if(repository.getMovieList()!=null)
-            movies.add(repository.getMovieList());
-        allMovieList.setValue(movies);
+        movies = new ArrayList<>();
+        repository = new Repository();
+        update(1);
+    }
+
+    public void update(Integer ip) {
+        repository.getMovieList(ip);
     }
 
     public LiveData<ArrayList<MoviesListResponseModel>> getAllMovieList() {

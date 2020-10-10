@@ -8,5 +8,4 @@ import retrofit2.http.Url;
 
 public interface GetMovieListInterface {
     @GET
-    Call<MoviesListResponseModel> getAllMovies(@Url String moviesListUrl);
-}
+    Call<MoviesListResponseModel> getUsers(@Url String url);}

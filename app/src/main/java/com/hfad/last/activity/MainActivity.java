@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.last.adapter.MovieAdapter;
+import com.hfad.last.model.MovieResponse;
 import com.hfad.last.model.MoviesListResponseModel;
 import com.hfad.last.viewmodel.MoviesListViewModel;
 import com.hfad.last.R;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -46,9 +48,7 @@ public class MainActivity extends AppCompatActivity {
         moviesListViewModel.getAllMovieList().observe(this, new Observer<ArrayList<MoviesListResponseModel>>() {
             @Override
             public void onChanged(ArrayList<MoviesListResponseModel> moviesListResponseModels) {
-                if (moviesListResponseModels.get(0) != null) {
-                    recyclerViewAdapter.addAll(moviesListResponseModels.get(0));
-                }
+                    recyclerViewAdapter.addAll(moviesListResponseModels.get(0).getResults().get(1));
             }
         });
     }

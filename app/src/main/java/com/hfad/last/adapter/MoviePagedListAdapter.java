@@ -58,7 +58,7 @@ public class MoviePagedListAdapter extends PagedListAdapter<MovieResponse, Movie
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private CardView movieCardViewM;
+        private final CardView movieCardViewM;
 
         ViewHolder(CardView cardView) {
             super(cardView);

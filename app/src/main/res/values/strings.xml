@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">MVH</string>
-    <string name="over_view"> </string>
+    <string name="over_view"> <b>OverView</b> \n %1$s</string>
+    <string name="vote_average">%1$s </string>
+    <string name="is_adult">%1$s</string>
+    <string name="movie_popularity">%1$s </string>
+    <string name="movie_run_time">%1$s </string>
+    <string name="movie_title">%1$s </string>
+    <string name="movie_language">%1$s </string>
 </resources>

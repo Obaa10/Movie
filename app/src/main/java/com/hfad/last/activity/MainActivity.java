@@ -2,81 +2,42 @@ package com.hfad.last.activity;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.last.R;
-import com.hfad.last.adapter.MovieAdapter;
-import com.hfad.last.model.MoviesListResponseModel;
-import com.hfad.last.viewmodel.MoviesListViewModel;
-
-import java.util.ArrayList;
+import com.hfad.last.adapter.MoviePagedListAdapter;
+import com.hfad.last.model.MovieResponse;
+import com.hfad.last.viewmodel.MovieListViewModel;
 
 
 public class MainActivity extends AppCompatActivity {
 
-
-    public MovieAdapter recyclerViewAdapter;
-    public static Boolean appWasRunning = true;
-    private static final String APP_WAS_RUNNING = "appWasRunning";
+    RecyclerView recyclerView;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState != null) {
-            appWasRunning = false;
-        }
-        //Set the recyclerView
-        RecyclerView movieRecyclerView = findViewById(R.id.movie_recycler);
-        RecyclerView.LayoutManager recyclerViewManager = new LinearLayoutManager(this);
-        movieRecyclerView.setLayoutManager(recyclerViewManager);
-        recyclerViewAdapter = new MovieAdapter();
-        movieRecyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView = findViewById(R.id.movie_recycler);
+        final MoviePagedListAdapter adapterWq = new MoviePagedListAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        final MoviesListViewModel moviesListViewModel = new ViewModelProvider(this).get(MoviesListViewModel.class);
-        observeViewModel(moviesListViewModel);
-    }
+        MovieListViewModel movieViewModel = new ViewModelProvider(this).get(MovieListViewModel.class);
 
-    private void observeViewModel(final MoviesListViewModel moviesListViewModel) {
-        if (!appWasRunning) {
-            recyclerViewAdapter.create();
-            appWasRunning = true;
-        }
-        moviesListViewModel.getAllMovieList().observe(this, new Observer<ArrayList<MoviesListResponseModel>>() {
+        movieViewModel.pagedListLiveData.observe(this, new Observer<PagedList<MovieResponse>>() {
             @Override
-            public void onChanged(ArrayList<MoviesListResponseModel> moviesListResponseModels) {
-                recyclerViewAdapter.addAll(moviesListResponseModels.get(MoviesListViewModel.currentlyMovieListPage).getResults());
+            public void onChanged(PagedList<MovieResponse> movies) {
+                adapterWq.submitList(movies);
             }
         });
-        moviesListViewModel.getCurrentlyMovieListPage().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                moviesListViewModel.update(integer);
-            }
-        });
-
+        recyclerView.setAdapter(adapterWq);
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        appWasRunning = false;
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean(APP_WAS_RUNNING, appWasRunning);
-    }
-
-
 }
 
 
@@ -103,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
 //Get the movie data from the internet
    /* private void fetchMovieDetails(String movieUrl) {
         GetMovieListInterface apiService = RetrofitGetDataService.getRetrofitInstance().create(GetMovieListInterface.class);
-        Call<MoviesListResponseModel> call = apiService.getAllMovies(movieUrl);
-        call.enqueue(new Callback<MoviesListResponseModel>() {
+        Call<MoviesListResponse> call = apiService.getAllMovies(movieUrl);
+        call.enqueue(new Callback<MoviesListResponse>() {
             @Override
-            public void onResponse(Call<MoviesListResponseModel> call, Response<MoviesListResponseModel> response) {
+            public void onResponse(Call<MoviesListResponse> call, Response<MoviesListResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     List<MovieResponse> movieResponseList = response.body().getResults();
@@ -118,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                                 moviesListViewModelViewModel.MovieUpdate(movieResponseList);
                         }
                         if (!appIsRunning) {
-                            recyclerViewAdapter = new MovieAdapter();
+                            recyclerViewAdapter = new MoviePagedListAdapter();
                             movieRecyclerView.setAdapter(recyclerViewAdapter);
                             recyclerViewManager.getLayoutDirection();
                             appIsRunning = true;
@@ -128,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MoviesListResponseModel> call, Throwable t) {
+            public void onFailure(Call<MoviesListResponse> call, Throwable t) {
                 Log.d("TAG", "Response = " + t.toString());
             }
         });

@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hfad.last.adapter.MovieAdapter;
 import com.hfad.last.network.Interface.GetMovieDetailsInterface;
 import com.hfad.last.model.MovieDetailsResponse;
 import com.hfad.last.R;
@@ -24,6 +23,8 @@ import retrofit2.Response;
 public class DetailsActivity extends AppCompatActivity {
 
 
+    public static final String MOVIE_ID = "movieId";
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -34,7 +35,7 @@ public class DetailsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        Integer movieId = (Integer) Objects.requireNonNull(getIntent().getExtras()).get(MovieAdapter.MOVIE_ID);
+        Integer movieId = (Integer) Objects.requireNonNull(getIntent().getExtras()).get(MOVIE_ID);
         String movieUrl = "/3/movie/" + movieId.toString() + "?api_key=6ddf1da8ede343f82786973e2dd7c457";
         fetchMovieDetails(movieUrl);
     }

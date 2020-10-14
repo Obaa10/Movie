@@ -1,5 +1,6 @@
 package com.hfad.last.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -45,7 +46,7 @@ public class DetailsActivity extends AppCompatActivity {
         Call<MovieDetailsResponse> call = apiService.getAllDetails(movieUrl);
         call.enqueue(new Callback<MovieDetailsResponse>() {
             @Override
-            public void onResponse(Call<MovieDetailsResponse> call, Response<MovieDetailsResponse> response) {
+            public void onResponse(@NonNull Call<MovieDetailsResponse> call,@NonNull Response<MovieDetailsResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                      MovieDetailsResponse movieDetailsResponse = response.body();
@@ -53,7 +54,7 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<MovieDetailsResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<MovieDetailsResponse> call,@NonNull Throwable t) {
                 Log.d("TAG", "Response = " + t.toString());
             }
         });

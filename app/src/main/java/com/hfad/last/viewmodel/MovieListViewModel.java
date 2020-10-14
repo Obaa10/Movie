@@ -14,7 +14,7 @@ public class MovieListViewModel extends ViewModel {
 
     public LiveData<PagedList<MovieResponse>> pagedListLiveData;
 
-    public LiveData<MovieSource> movieSourceLiveData;
+    private LiveData<MovieSource> movieSourceLiveData;
 
     public MovieListViewModel() {
         MovieSourceFactory factory = new MovieSourceFactory();

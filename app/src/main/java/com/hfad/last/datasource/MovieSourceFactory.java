@@ -3,7 +3,6 @@ package com.hfad.last.datasource;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 
-import com.hfad.last.datasource.MovieSource;
 import com.hfad.last.model.MovieResponse;
 
 public class MovieSourceFactory extends DataSource.Factory<Integer, MovieResponse> {

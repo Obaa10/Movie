@@ -46,15 +46,15 @@ public class MoviePagedListAdapter extends PagedListAdapter<MovieResponse, Movie
             movieRealisedData.setText(movie.getReleaseDate());
             Picasso.get().load("https://image.tmdb.org/t/p/w185" + movie.getPosterPath()).into(holder.movieCardViewM.<ImageView>findViewById(R.id.movie_image));
 
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                    intent.putExtra(DetailsActivity.MOVIE_ID, movie.getId());
+                    v.getContext().startActivity(intent);
+                }
+            });
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), DetailsActivity.class);
-                intent.putExtra(DetailsActivity.MOVIE_ID, movie.getId());
-                v.getContext().startActivity(intent);
-            }
-        });
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +69,7 @@ public class MoviePagedListAdapter extends PagedListAdapter<MovieResponse, Movie
     private static final DiffUtil.ItemCallback<MovieResponse> USER_COMPARATOR = new DiffUtil.ItemCallback<MovieResponse>() {
         @Override
         public boolean areItemsTheSame(@NonNull MovieResponse oldItem, @NonNull MovieResponse newItem) {
-            return oldItem.getId() == newItem.getId();
+            return oldItem.getId().equals(newItem.getId());
         }
 
         @Override

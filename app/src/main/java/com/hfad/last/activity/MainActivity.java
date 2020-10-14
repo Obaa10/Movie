@@ -41,6 +41,15 @@ public class MainActivity extends AppCompatActivity {
 }
 
 
+
+
+
+
+
+
+
+
+
 // Toast.makeText(getApplicationContext(),"The text you want to display",Toast.LENGTH_LONG).show();
 
 //Update the list when the user get the 5 last card

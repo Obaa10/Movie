@@ -28,7 +28,7 @@ public class MovieSource extends PageKeyedDataSource<Integer, MovieResponse> {
         call.enqueue(new Callback<MoviesListResponse>() {
 
             @Override
-            public void onResponse(Call<MoviesListResponse> call, Response<MoviesListResponse> response) {
+            public void onResponse(@NonNull Call<MoviesListResponse> call,@NonNull Response<MoviesListResponse> response) {
                 if (response.body() != null) {
                     List<MovieResponse> movies = response.body().getResults();
                     callback.onResult(movies, null, FIRST_PAGE + 1);
@@ -36,7 +36,7 @@ public class MovieSource extends PageKeyedDataSource<Integer, MovieResponse> {
             }
 
             @Override
-            public void onFailure(Call<MoviesListResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<MoviesListResponse> call,@NonNull Throwable t) {
 
             }
         });
@@ -48,10 +48,10 @@ public class MovieSource extends PageKeyedDataSource<Integer, MovieResponse> {
         Call<MoviesListResponse> call = service.getAllMovies(MOVIE_URL + params.key.toString());
         call.enqueue(new Callback<MoviesListResponse>() {
             @Override
-            public void onResponse(Call<MoviesListResponse> call, Response<MoviesListResponse> response) {
+            public void onResponse(@NonNull Call<MoviesListResponse> call,@NonNull Response<MoviesListResponse> response) {
                 if (response.body() != null) {
                     List<MovieResponse> movies = response.body().getResults();
-                    Integer key;
+                    int key;
                     if (params.key > 1)
                         key = params.key - 1;
                     else
@@ -61,7 +61,7 @@ public class MovieSource extends PageKeyedDataSource<Integer, MovieResponse> {
             }
 
             @Override
-            public void onFailure(Call<MoviesListResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<MoviesListResponse> call,@NonNull Throwable t) {
 
             }
         });
@@ -74,7 +74,7 @@ public class MovieSource extends PageKeyedDataSource<Integer, MovieResponse> {
         call.enqueue(new Callback<MoviesListResponse>() {
 
             @Override
-            public void onResponse(Call<MoviesListResponse> call, Response<MoviesListResponse> response) {
+            public void onResponse(@NonNull Call<MoviesListResponse> call,@NonNull Response<MoviesListResponse> response) {
                 if (response.body() != null) {
                     List<MovieResponse> movies = response.body().getResults();
                     callback.onResult(movies,params.key+1);
@@ -82,7 +82,7 @@ public class MovieSource extends PageKeyedDataSource<Integer, MovieResponse> {
             }
 
             @Override
-            public void onFailure(Call<MoviesListResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<MoviesListResponse> call,@NonNull Throwable t) {
 
             }
         });

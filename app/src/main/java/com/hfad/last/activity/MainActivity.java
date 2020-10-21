@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.movie_recycler);
-        final MoviePagedListAdapter adapterWq = new MoviePagedListAdapter();
+        final MoviePagedListAdapter movieAdapter = new MoviePagedListAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         MovieListViewModel movieViewModel = new ViewModelProvider(this).get(MovieListViewModel.class);
@@ -33,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
         movieViewModel.pagedListLiveData.observe(this, new Observer<PagedList<MovieResponse>>() {
             @Override
             public void onChanged(PagedList<MovieResponse> movies) {
-                adapterWq.submitList(movies);
+                movieAdapter.submitList(movies);
             }
         });
-        recyclerView.setAdapter(adapterWq);
+        recyclerView.setAdapter(movieAdapter);
     }
 }
 

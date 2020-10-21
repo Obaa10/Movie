@@ -1,6 +1,5 @@
 package com.hfad.last.adapter;
 
-
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +26,7 @@ public class MoviePagedListAdapter extends PagedListAdapter<MovieResponse, Movie
         super(USER_COMPARATOR);
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -38,13 +38,7 @@ public class MoviePagedListAdapter extends PagedListAdapter<MovieResponse, Movie
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final MovieResponse movie = getItem(position);
         if (movie != null) {
-            CardView cardView = holder.movieCardViewM;
-            TextView movieName = cardView.findViewById(R.id.movie_name);
-            TextView movieRealisedData = cardView.findViewById(R.id.movie_realised_data);
-            TextView movieVoteAverage = cardView.findViewById(R.id.movie_vote);
-            movieName.setText(movie.getTitle());
-            movieRealisedData.setText(movie.getReleaseDate());
-            Picasso.get().load("https://image.tmdb.org/t/p/w185" + movie.getPosterPath()).into(holder.movieCardViewM.<ImageView>findViewById(R.id.movie_image));
+            holder.create(movie);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -58,11 +52,25 @@ public class MoviePagedListAdapter extends PagedListAdapter<MovieResponse, Movie
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private final CardView movieCardViewM;
 
-        ViewHolder(CardView cardView) {
-            super(cardView);
-            movieCardViewM = cardView;
+        TextView movieName;
+        TextView movieRealisedDate;
+        TextView movieVoteAverage;
+        ImageView movieImage;
+
+
+        ViewHolder(View view) {
+            super(view);
+            movieName = view.findViewById(R.id.movie_name);
+            movieRealisedDate = view.findViewById(R.id.movie_realised_data);
+            movieVoteAverage = view.findViewById(R.id.movie_vote);
+            movieImage = view.findViewById(R.id.movie_image);
+        }
+
+        void create(MovieResponse movieResponse){
+            movieName.setText(movieResponse.getTitle());
+            movieRealisedDate.setText(movieResponse.getReleaseDate());
+            Picasso.get().load("https://image.tmdb.org/t/p/w185" + movieResponse.getPosterPath()).into(movieImage);
         }
     }
 

@@ -49,8 +49,8 @@ public class DetailsActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<MovieDetailsResponse> call,@NonNull Response<MovieDetailsResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
-                     MovieDetailsResponse movieDetailsResponse = response.body();
-                     attachDataToView(movieDetailsResponse);
+                    MovieDetailsResponse movieDetailsResponse = response.body();
+                    attachDataToView(movieDetailsResponse);
                 }
             }
             @Override
@@ -64,7 +64,7 @@ public class DetailsActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.backdrop);
         Picasso.get().load("https://image.tmdb.org/t/p/w500" + movieDetailsResponse.getPosterPath()).resize(imageView.getWidth(),0).into(imageView);
         TextView movieVoteAverage = findViewById(R.id.vote_average);
-        String voteAverage = getString(R.string.vote_average,movieDetailsResponse.getVoteAverage());
+        String voteAverage = getString(R.string.vote_average,movieDetailsResponse.getVoteAverage().toString());
         movieVoteAverage.setText(voteAverage);
         TextView movieOverView = findViewById(R.id.overview);
         String overView = getString(R.string.over_view,movieDetailsResponse.getOverview());
@@ -76,10 +76,10 @@ public class DetailsActivity extends AppCompatActivity {
         String adult = getString(R.string.is_adult, movieDetailsResponse.getAdult().toString());
         isAdult.setText(adult);
         TextView moviePopulate = findViewById(R.id.Popularity);
-        String popularity = getString(R.string.movie_popularity,movieDetailsResponse.getPopularity());
+        String popularity = getString(R.string.movie_popularity,movieDetailsResponse.getPopularity().toString());
         moviePopulate.setText(popularity);
         TextView movieRuntime =  findViewById(R.id.runtime);
-        String runTime = getString(R.string.movie_run_time,movieDetailsResponse.getRuntime());
+        String runTime = getString(R.string.movie_run_time,movieDetailsResponse.getRuntime().toString());
         movieRuntime.setText(runTime);
         TextView movieTitle = findViewById(R.id.detail_title);
         String title = getString(R.string.movie_title,movieDetailsResponse.getOriginalTitle());
